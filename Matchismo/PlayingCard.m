@@ -43,15 +43,32 @@
 {
     int score = 0;
     if (otherCards.count == 1) {
-        PlayingCard *otherCard = [otherCards lastObject];
+        PlayingCard *otherCard = nil;
+        id obj = [otherCards lastObject];
+        if ([obj isKindOfClass:[PlayingCard class]]){
+            otherCard = obj;
+        }
+        
         if ([otherCard.suit isEqualToString:self.suit]) {
             score = 1;
         } else if (otherCard.rank == self.rank) {
             score = 4;
         }
     } else if (otherCards.count == 2) {
-        PlayingCard *first = otherCards[0];
-        PlayingCard *second = otherCards[1];
+        PlayingCard *first = nil;
+        PlayingCard *second = nil;
+        
+        id firstObj = otherCards[0];
+        id secondObj = otherCards[1];
+        
+        if ([firstObj isKindOfClass:[PlayingCard class]]) {
+            first = firstObj;
+        }
+        if ([secondObj isKindOfClass:[PlayingCard class]]) {
+            second = secondObj;
+        }
+        
+        
         if (self.rank == first.rank && self.rank == second.rank) {
             score = 8;
         } else if ([self.suit isEqualToString:first.suit] && [self.suit isEqualToString:second.suit]) {

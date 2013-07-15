@@ -9,6 +9,7 @@
 #import "CardGameViewController.h"
 #import "PlayingCardDeck.h"
 #import "CardMatchingGame.h"
+#import "GameResult.h"
 
 @interface CardGameViewController ()
 @property (weak, nonatomic) IBOutlet UILabel *flipsLabel;
@@ -17,6 +18,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *gameDescriptionLabel;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *gameTypeChooserSegmentedControl;
 
+@property (nonatomic, strong) GameResult *gameResult;
 @property (strong, nonatomic) CardMatchingGame *game;
 @property (nonatomic) int flipCount;
 @end
@@ -41,6 +43,15 @@
     return _game;
 }
 
+- (GameResult *)gameResult
+{
+    if (!_gameResult) {
+        _gameResult = [[GameResult alloc] init];
+    }
+    
+    return _gameResult;
+}
+
 - (void)setCardButtons:(NSArray *)cardButtons
 {
     _cardButtons = cardButtons;
@@ -60,6 +71,7 @@
     [self.game flipCardAtIndex:[self.cardButtons indexOfObject:sender]];
     self.flipCount += 1;
     [self updateUI];
+    self.gameResult.score = self.game.score;
 }
 
 - (IBAction)dealPressed:(UIButton *)sender
@@ -69,6 +81,7 @@
     self.flipCount = 0;
     self.gameDescriptionLabel.text = nil;
     self.game = nil;
+    self.gameResult = nil;
     self.gameTypeChooserSegmentedControl.enabled = YES;
     [self updateUI];
 }
