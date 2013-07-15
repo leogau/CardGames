@@ -8,11 +8,11 @@
 
 #import <XCTest/XCTest.h>
 
-@interface MatchismoTests : XCTestCase
+@interface CardGamesTests : XCTestCase
 
 @end
 
-@implementation MatchismoTests
+@implementation CardGamesTests
 
 - (void)setUp
 {
