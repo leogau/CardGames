@@ -17,6 +17,8 @@
 - (Card *)cardAtIndex:(NSUInteger)index;
 
 @property (nonatomic, readonly) int score;
+@property (nonatomic) NSUInteger gameType;
+@property (nonatomic, strong) NSString *description;
 
 @end
 
