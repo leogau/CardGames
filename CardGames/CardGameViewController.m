@@ -76,10 +76,7 @@
 
 - (IBAction)dealPressed:(UIButton *)sender
 {
-    self.flipsLabel.text = @"Flips: 0";
-    self.scoreLabel.text = @"Score: 0";
     self.flipCount = 0;
-    self.gameDescriptionLabel.text = nil;
     self.game = nil;
     self.gameResult = nil;
     self.gameTypeChooserSegmentedControl.enabled = YES;

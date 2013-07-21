@@ -55,6 +55,9 @@
 #define MISMATCH_PENALTY 2
 #define MATCH_BONUS 4
 
+#define SET_MISMATCH_PENALTY 1
+#define SET_MATCH_BONUS 8
+
 - (void)flipCardAtIndex:(NSUInteger)index
 {
     Card *card = [self cardAtIndex:index];
@@ -111,6 +114,45 @@
             self.score -= FLIP_COST;
         }
         card.faceUp = !card.isFaceUp;
+    }
+}
+
+- (void)flipSetCardAtIndex:(NSUInteger)index
+{
+    Card *card = [self cardAtIndex:index];
+    if (!card.isUnplayable) {
+        if (!card.isFaceUp) {
+            card.faceUp = !card.faceUp;
+            NSMutableArray *cardsFaceUp = [[NSMutableArray alloc] init];
+            for (Card *otherCard in self.cards) {
+                if (otherCard.isFaceUp && !otherCard.isUnplayable && otherCard != card) {
+                    [cardsFaceUp addObject:otherCard];
+                }
+            }
+            
+            if (cardsFaceUp.count == 2) {
+                int matchScore = [card match:cardsFaceUp];
+                if (matchScore) {
+                    for (Card *card in cardsFaceUp) {
+                        card.unplayable = YES;
+                    }
+                    card.unplayable = YES;
+                    self.score += matchScore * SET_MATCH_BONUS;
+                    self.description = [NSString stringWithFormat:@"Matched %@, %@, and %@ for %d points!", card.contents, [cardsFaceUp[0] contents], [cardsFaceUp[1] contents], matchScore * SET_MATCH_BONUS];
+                } else {
+                    for (Card *aCard in cardsFaceUp) {
+                        aCard.faceUp = NO;
+                    }
+                    card.faceUp = !card.faceUp;
+                    self.score -= SET_MISMATCH_PENALTY;
+                    self.description = [NSString stringWithFormat:@"%@, %@, and %@ aren't a set! %d point penalty", card.contents, [cardsFaceUp[0] contents], [cardsFaceUp[1] contents], SET_MISMATCH_PENALTY];
+                }
+            } else {
+                self.description = [NSString stringWithFormat:@"Flipped %@", card.contents];
+            }
+            
+            self.score -= FLIP_COST;
+        }
     }
 }
 

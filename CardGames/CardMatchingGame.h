@@ -16,6 +16,8 @@
 - (void)flipCardAtIndex:(NSUInteger)index;
 - (Card *)cardAtIndex:(NSUInteger)index;
 
+- (void)flipSetCardAtIndex:(NSUInteger)index;
+
 @property (nonatomic, readonly) int score;
 @property (nonatomic) NSUInteger gameType;
 @property (nonatomic, strong) NSString *description;
